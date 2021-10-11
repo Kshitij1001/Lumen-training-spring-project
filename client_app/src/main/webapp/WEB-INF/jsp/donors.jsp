@@ -150,7 +150,9 @@
         <div id="signup">
             <h1>Sign up as a <span style="color: red">Blood</span> Donor</h1>
 
-            <form:form action="${pageContext.request.contextPath}/donors/register" method="post" modelAttribute="donor">
+            <%--@elvariable id="donor" type="java"--%>
+            <form:form action="${pageContext.request.contextPath}/donors/register" onsubmit="return register()"
+                       method="post" modelAttribute="donor">
 
                 <div class="block">
                     <div class="inline">
@@ -226,8 +228,9 @@
         <div id="login">
             <h1>Welcome Donor!</h1>
 
+            <%--@elvariable id="donorCred" type="java"--%>
             <form:form action="${pageContext.request.contextPath}/donors/login" method="post"
-                       modelAttribute="donorCred">
+                       modelAttribute="donorCred" onsubmit="return login()">
 
                 <div class="field-wrap">
                     <label>
@@ -255,6 +258,40 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script type="text/javascript">
+
+    let register = () => {
+        const inputs = $('input');
+        for (let i = 0; i < inputs.length - 2; i++) {        //last 2 elements r from login form
+            inputs[i].value = inputs[i].value.trim();
+            if (inputs[i].value.length === 0) {
+                alert('no input should be empty');
+                return false;
+            }
+        }
+        if ($('#address').val($('textarea').val().trim()).val() === "") {
+            alert("address shouldn't be empty");
+            return false;
+        }
+
+        if ($('#password').val().length < 8) {
+            alert('password should be minimum 8 characters long');
+            return false;
+        }
+        return true
+    };
+
+    let login = () => {
+        if ($('#email').val().length * $('#pass').val($("#pass").val().trim()).val().length === 0) {
+            alert('no input should be empty');
+            return false
+        }
+        if ($(`#pass`).val().length < 8) {
+            alert('invalid password')
+            return false;
+        }
+        return true
+    };
+
     $('.form').find('input, textarea').on('keyup blur focus', function (e) {
 
         const $this = $(this),

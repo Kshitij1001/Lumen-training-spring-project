@@ -9,20 +9,18 @@ import org.springframework.web.servlet.ModelAndView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/donors", method = RequestMethod.GET)
 public class DonorController {
 
-    Map<String, Object> model = new HashMap<>();
-
     @GetMapping({"/", ""})
     public ModelAndView registerOrLogin() {
-        model.put("donor", new Donor());
-        model.put("donorCred", new DonorCredentials());
         System.out.println("donors page requested");
-        return new ModelAndView("/WEB-INF/jsp/donors.jsp", model);
+        return new ModelAndView("/WEB-INF/jsp/donors.jsp", new HashMap<>() {{
+            put("donor", new Donor());
+            put("donorCred", new DonorCredentials());
+        }});
     }
 
     @PostMapping(value = "/register")
