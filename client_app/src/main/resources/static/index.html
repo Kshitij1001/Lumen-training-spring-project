@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>welcome</title>
+</head>
+<body>
+<h1 style="color: red">Online blood bank portal</h1>
+<hr>
+<button onclick="donor()">For Blood Donors</button>
+<button onclick="camp()">For donation camps</button>
+<button onclick="patient()">For patients who need blood</button>
+<script>
+    let donor = () => {
+        window.location.replace("http://localhost:8080/donors");
+    };
+    let camp = () => {
+        window.location.replace("http://localhost:8080/camps")
+    };
+    let patient = () => {
+        window.location.replace("http://localhost:8080/patients")
+    }
+</script>
+</body>
+</html>
