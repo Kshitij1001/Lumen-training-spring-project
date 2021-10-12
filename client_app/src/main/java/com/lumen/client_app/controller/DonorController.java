@@ -15,10 +15,6 @@ public class DonorController {
         System.out.println("donor registration/login page requested");
         model.addAttribute("donor", new Donor());
         model.addAttribute("donorCred", new DonorCredentials());
-//        return new ModelAndView("donors", new HashMap<>() {{
-//            put("donor", new Donor());
-//            put("donorCred", new DonorCredentials());
-//        }});
         return "donors";
     }
 
