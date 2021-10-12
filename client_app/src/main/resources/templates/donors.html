@@ -1,6 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>
         Donors
@@ -150,22 +148,24 @@
         <div id="signup">
             <h1>Sign up as a <span style="color: red">Blood</span> Donor</h1>
 
-            <%--@elvariable id="donor" type="java"--%>
-            <form:form action="${pageContext.request.contextPath}/donors/register" onsubmit="return register()"
-                       method="post" modelAttribute="donor">
+            <form method="post" onsubmit="return register()"
+                  th:action="@{/donors/register}" th:object="${donor}">
 
                 <div class="block">
                     <div class="inline">
                         <label>
                             First Name
-                            <form:input path="firstName" type="text" required="" autocomplete="off" style="width:35%"/>
+                            <input autocomplete="off" id="firstName" required="" style="width:35%"
+                                   th:field="*{firstName}"
+                                   type="text"/>
                         </label>
                     </div>
 
                     <div class="inline" style="margin-left:5%">
                         <label>
                             Last Name
-                            <form:input path="lastName" type="text" required="" autocomplete="off" style="width:35%"/>
+                            <input autocomplete="off" id="lastName" required="" style="width:35%" th:field="*{lastName}"
+                                   type="text"/>
                         </label>
                     </div>
                 </div>
@@ -174,7 +174,7 @@
                     <div class="inline">
                         <label>
                             Blood Group
-                            <form:input path="bloodGroup" list="bldgrp" style="width:33.5%"/>
+                            <input id="bloodGroup" list="bldgrp" style="width:33.5%" th:field="*{bloodGroup}"/>
                             <datalist id="bldgrp">
                                 <option value="A+">A+</option>
                                 <option value="A-">A-</option>
@@ -192,8 +192,8 @@
                     <div class="inline" style="margin-left:5%">
                         <label>
                             Date of Birth
-                            <form:input id="DoB" path="dob" style="width:33%" type="date" required=""
-                                        autocomplete="off"/>
+                            <input autocomplete="off" id="DoB" required="" style="width:33%"
+                                   type="date">
                         </label>
                     </div>
                 </div>
@@ -201,54 +201,101 @@
                 <div class="block" style="margin-left:13%">
                     <label>
                         Email ID
-                        <form:input path="mail" type="email" style="width:87%" required="" autocomplete="off"/>
+                        <input autocomplete="off" id="email1" required="" style="width:87%" th:field="*{mail}"
+                               type="email"/>
                     </label>
                 </div>
 
                 <div class="block" style="margin-left:13%">
                     <label>
                         Address
-                        <form:textarea path="address" required="" autocomplete="off" cssStyle="width:87%"/>
+                        <textarea autocomplete="off" id="address" required="" style="width:87%"
+                                  th:field="*{address}"></textarea>
                     </label>
                 </div>
+
+                <label class="block">
+                    City
+                    <input id="city" list="cities" style="width:35%" th:field="*{city}"/>
+                    <datalist id="cities">
+                        <option value="Agartala">Agartala</option>
+                        <option value="Aizawl">Aizawl</option>
+                        <option value="Amaravati">Amaravati</option>
+                        <option value="Amritsar">Amritsar</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Bhubaneswar">Bhubaneswar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chennai">Chennai</option>
+                        <option value="Daman">Daman</option>
+                        <option value="Dehradun">Dehradun</option>
+                        <option value="Delhi NCR">Delhi NCR</option>
+                        <option value="Dispur">Dispur</option>
+                        <option value="Gandhinagar">Gandhinagar</option>
+                        <option value="Gangtok">Gangtok</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Imphal">Imphal</option>
+                        <option value="Indore">Indore</option>
+                        <option value="Itanagar">Itanagar</option>
+                        <option value="Jaipur">Jaipur</option>
+                        <option value="Jammu">Jammu</option>
+                        <option value="Kavaratti">Kavaratti</option>
+                        <option value="Kohima">Kohima</option>
+                        <option value="Kolkata">Kolkata</option>
+                        <option value="Leh">Leh</option>
+                        <option value="Lucknow">Lucknow</option>
+                        <option value="Madurai">Madurai</option>
+                        <option value="Mumbai">Mumbai</option>
+                        <option value="Panaji">Panaji</option>
+                        <option value="Patna">Patna</option>
+                        <option value="Port Blair">Port Blair</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Raipur">Raipur</option>
+                        <option value="Ranchi">Ranchi</option>
+                        <option value="Shillong">Shillong</option>
+                        <option value="Shimla">Shimla</option>
+                        <option value="Srinagar">Srinagar</option>
+                        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                    </datalist>
+                </label>
 
                 <div class="block">
                     <label>
                         Set a Password
-                        <form:input path="password" type="password" required="" autocomplete="off" style="width:30%"/>
+                        <input autocomplete="off" id="password1" required="" style="width:30%" th:field="*{password}"
+                               type="password"/>
                     </label>
                 </div>
 
                 <button type="submit" class="button button-block">Register Now!</button>
-
-            </form:form>
+            </form>
 
         </div>
 
         <div id="login">
             <h1>Welcome Donor!</h1>
 
-            <%--@elvariable id="donorCred" type="java"--%>
-            <form:form action="${pageContext.request.contextPath}/donors/login" method="post"
-                       modelAttribute="donorCred" onsubmit="return login()">
+            <form action="#" method="post" onsubmit="return login()"
+                  th:action="@{/donors/login}" th:object="${donorCred}">
 
                 <div class="field-wrap">
                     <label>
                         Email ID
-                        <form:input path="email" type="email" required="" autocomplete="off" style="width: 60%"/>
+                        <input autocomplete="off" id="email2" required="" style="width: 60%" th:field="*{email}"
+                               type="email"/>
                     </label>
                 </div>
 
                 <div class="field-wrap">
                     <label>
                         Password
-                        <form:input path="pass" type="password" required="" autocomplete="off" style="width: 58.5%"/>
+                        <input autocomplete="off" id="password2" required="" style="width: 58.5%" th:field="*{pass}"
+                               type="password"/>
                     </label>
                 </div>
 
                 <button type="submit" class="button button-block">Log In</button>
 
-            </form:form>
+            </form>
 
         </div>
 
@@ -272,21 +319,27 @@
             alert("address shouldn't be empty");
             return false;
         }
-
-        if ($('#password').val().length < 8) {
+        if ($('#password1').val().length < 8) {
             alert('password should be minimum 8 characters long');
             return false;
         }
+        let now = new Date();
+        let dob = new Date($('#DoB').val());
+        if (Math.floor((now - dob) / (1000 * 3600 * 24 * 365.25)) < 18) {
+            alert('Minimum age for blood donation is 18');
+            return false;
+        }
+
         return true
     };
 
     let login = () => {
-        if ($('#email').val().length * $('#pass').val($("#pass").val().trim()).val().length === 0) {
+        if ($('#email2').val().length * $('#password2').val($("#password2").val().trim()).val().length === 0) {
             alert('no input should be empty');
             return false
         }
-        if ($(`#pass`).val().length < 8) {
-            alert('invalid password')
+        if ($(`#password2`).val().length < 8) {
+            alert('invalid password');
             return false;
         }
         return true

@@ -2,42 +2,41 @@ package com.lumen.client_app.controller;
 
 import com.lumen.client_app.model.Donor;
 import com.lumen.client_app.model.DonorCredentials;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-
-@RestController
-@RequestMapping(value = "/donors", method = RequestMethod.GET)
+@Controller
+@RequestMapping(value = "/donors")
 public class DonorController {
 
     @GetMapping({"/", ""})
-    public ModelAndView registerOrLogin() {
-        System.out.println("donors page requested");
-        return new ModelAndView("/WEB-INF/jsp/donors.jsp", new HashMap<>() {{
-            put("donor", new Donor());
-            put("donorCred", new DonorCredentials());
-        }});
+    public String registerOrLogin(Model model) {
+        System.out.println("donor registration/login page requested");
+        model.addAttribute("donor", new Donor());
+        model.addAttribute("donorCred", new DonorCredentials());
+//        return new ModelAndView("donors", new HashMap<>() {{
+//            put("donor", new Donor());
+//            put("donorCred", new DonorCredentials());
+//        }});
+        return "donors";
     }
 
+    @ResponseBody
     @PostMapping(value = "/register")
-    public String registerDonor(@Validated @ModelAttribute("Donor") Donor donor) {
-        try {
-            donor.setBirthDate(new SimpleDateFormat("yyyy-MM-dd").parse(donor.getDob()));
-        } catch (ParseException e) {
-            System.out.println("Wrong date format");
-        }
+    public String register(@ModelAttribute("donor") Donor donor) {
+
+        System.out.println("got donor registration request");
         System.out.println(donor);
         return "donor registered";
     }
 
-
+    @ResponseBody
     @PostMapping(value = "/login")
-    public String loginDonor(@Validated @ModelAttribute("DonorCredentials") DonorCredentials donorCred) {
+    public String login(@ModelAttribute("donorCred") DonorCredentials donorCred) {     //TODO
+        System.out.println("donor wanna login");
         System.out.println(donorCred);
-        return "user logged in";
+        return "Logged in";
     }
+
 }
