@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +25,10 @@ public class DonorController {
     String register(@RequestBody Donor donor) {
         System.out.println("received donor: " + donor);
         try {
+            if (donorRepository.existsById(donor.getMail())) {
+                System.out.println("Donor already exists");
+                return "already registered";
+            }
             donorRepository.save(donor);
             System.out.println("donor saved to database");
             return "success";
@@ -36,17 +41,25 @@ public class DonorController {
 
     @PostMapping(value = "login", consumes = {"application/json"})
     ResponseEntity<Donor> login(@RequestBody DonorCredentials donorCred) {
-        System.out.println(donorCred);
-        Optional<Donor> donor = donorRepository.findById(donorCred.getEmail());
-        if (donor.isPresent()) {
-            if (donor.get().getPassword().equals(donorCred.getPass()))
-                return new ResponseEntity<>(donor.get(), HttpStatus.ACCEPTED);
-            donor.get().setMail("wrong password");
-            return new ResponseEntity<>(donor.get(), HttpStatus.OK);
+        System.out.println("received credentials: " + donorCred);
+        Optional<Donor> OpDonor = donorRepository.findById(donorCred.getEmail());
+        if (OpDonor.isPresent()) {
+            if (OpDonor.get().getPassword().equals(donorCred.getPass()))
+                return new ResponseEntity<>(OpDonor.get(), HttpStatus.ACCEPTED);
+            OpDonor.get().setMail("wrong password");
+            return new ResponseEntity<>(OpDonor.get(), HttpStatus.OK);
         }
         Donor dummy = new Donor();
         dummy.setMail("wrong mail");
         return new ResponseEntity<>(dummy, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "get_all")
+    ResponseEntity<List<Donor>> getAll() {
+        System.out.println("received get all donors request");
+        List<Donor> donors = donorRepository.findAll();
+        System.out.println("sending all donors...");
+        return new ResponseEntity<>(donors, HttpStatus.OK);
     }
 
 }

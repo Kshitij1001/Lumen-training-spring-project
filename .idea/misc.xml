@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/camp-service" />
     <file type="web" url="file://$PROJECT_DIR$/client_app" />
     <file type="web" url="file://$PROJECT_DIR$/donor-service" />
   </component>
@@ -11,6 +12,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/client_app/pom.xml" />
         <option value="$PROJECT_DIR$/donor-service/pom.xml" />
+        <option value="$PROJECT_DIR$/camp-service/pom.xml" />
       </list>
     </option>
   </component>

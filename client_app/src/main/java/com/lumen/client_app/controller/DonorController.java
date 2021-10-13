@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -23,12 +26,11 @@ public class DonorController {
         System.out.println("donor registration/login page requested");
         model.addAttribute("donor", new Donor());
         model.addAttribute("donorCred", new DonorCredentials());
-        return "donors";
+        return "donors/regOrLogin";
     }
 
-    @ResponseBody
     @PostMapping(value = "/register")
-    public String register(@ModelAttribute("donor") Donor donor) {
+    public String register(@ModelAttribute("donor") Donor donor, Model model) {
 
         System.out.println("got donor registration request");
         donor.setWilling(true);                   //Willing to donate by default
@@ -39,7 +41,11 @@ public class DonorController {
         String response = (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/register", donor, String.class);
 
         System.out.println("response: " + response);
-        return response;
+
+        model.addAttribute("responseDonor", donor);
+        model.addAttribute("status", response);
+
+        return "donors/donorError";       //Mostly not a serious error situation
     }
 
     @PostMapping(value = "/login")
@@ -56,8 +62,8 @@ public class DonorController {
 
         assert donorResponse != null;
         if (donorResponse.getMail().startsWith("wrong "))
-            return "donorError";
-        return "donorView";
+            return "donors/donorError";
+        return "donors/donorView";
     }
 
 }

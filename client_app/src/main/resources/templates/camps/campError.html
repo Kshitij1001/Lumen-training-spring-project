@@ -1,0 +1,32 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cannot login</title>
+</head>
+<body>
+<div th:switch="${responseCamp.campId}">
+    <div th:case="'wrong accessCode'">
+        <h1>Incorrect access code entered</h1>
+    </div>
+    <div th:case="'wrong campId'">
+        <h1>This camp ID isn't registered yet</h1>
+    </div>
+</div>
+<div th:switch="${status}">
+    <h1 style="color: green" th:case="'success'">
+        Camp registered successfully
+    </h1>
+    <h1 style="color: darkorange" th:case="'already registered'">
+        Camp with this camp ID is already registered
+    </h1>
+    <h1 style="color: red" th:case="'failure'">
+        Camp couldn't be registered :(
+    </h1>
+</div>
+<a href="/camps/">
+    <button style="border-radius: 10px;margin-left:40%;background-color: greenyellow;width: 20%;height: 8%;font-size:large;text-align: center">
+        Go back
+    </button>
+</a>
+</body>
+</html>
