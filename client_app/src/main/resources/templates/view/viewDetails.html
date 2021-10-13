@@ -125,7 +125,7 @@
         </th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="here">
 
     </tbody>
 </table>
@@ -137,18 +137,26 @@
 <script type="text/javascript">
     $(document).ready(() => {
 
-        var donorList = {};
-
-        const updateTable = () => {
-
-        }
+        const updateTable = (x) => {
+            $('#here').empty();
+            x.forEach((item, index) => {
+                $('#here').append(`<tr><td>${item['firstName']}</td>
+                    <td>${item['lastName']}</td><td>${item['bloodGroup']}</td>
+                    <td>${item['mail']}</td><td>${item['address']}</td>
+                    <td>${item['city']}</td><td>${item['willing'] ? 'Yes' : 'No'}</td></tr>`);
+            });
+        };
 
         $('#all').click(() => {
             $.post('/patients/all_donors', {}, (data, status) => {
-
+                data = JSON.parse(data);
+                if (data) {
+                    updateTable(data)
+                } else {
+                    $('tbody').empty();
+                }
             })
-        });
-
+        })
     })
 </script>
 </body>
