@@ -48,7 +48,17 @@
 
 <label>
     Blood group
-    <input id="bloodGroup" type="text">
+    <input id="bloodGroup" list="bgList" type="text">
+    <datalist id="bgList">
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+    </datalist>
 </label>
 <label>
     City
@@ -121,6 +131,9 @@
             City
         </th>
         <th>
+            Last Donated
+        </th>
+        <th>
             Willing to donate
         </th>
     </tr>
@@ -137,26 +150,86 @@
 <script type="text/javascript">
     $(document).ready(() => {
 
-        const updateTable = (x) => {
+        var x;
+
+        const updateTable = () => {
+
             $('#here').empty();
             x.forEach((item, index) => {
                 $('#here').append(`<tr><td>${item['firstName']}</td>
                     <td>${item['lastName']}</td><td>${item['bloodGroup']}</td>
                     <td>${item['mail']}</td><td>${item['address']}</td>
-                    <td>${item['city']}</td><td>${item['willing'] ? 'Yes' : 'No'}</td></tr>`);
+                    <td>${item['city']}</td><td>${item['lastDonated']}</td>
+                    <td>${item['willing'] ? 'Yes' : 'No'}</td></tr>`);
             });
         };
 
         $('#all').click(() => {
             $.post('/patients/all_donors', {}, (data, status) => {
-                data = JSON.parse(data);
-                if (data) {
-                    updateTable(data)
-                } else {
-                    $('tbody').empty();
-                }
+                x = JSON.parse(data);
+                if (x)
+                    updateTable();
+                else
+                    $('#here').empty();
             })
+        });
+
+        $('#bldGrp').click(() => {
+            let bg = $(`#bloodGroup`).val();
+            if (bg === "") {
+                alert('Enter blood group');
+                return null;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/patients/bloodGroup_donors',
+                data: JSON.stringify({'bloodGroup': bg}),
+                success: data => {
+                    if (data) {
+                        x = data;
+                        updateTable();
+                    } else
+                        $('#here').empty();
+                },
+                contentType: "application/json",
+                dataType: 'json'
+            })
+        });
+
+        $('#eligible').click(() => {
+            let bg = $(`#bloodGroup`).val();
+            if (bg === "") {
+                alert('Enter blood group');
+                return null;
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/patients/eligible_bloodGroup_donors',
+                data: JSON.stringify({'bloodGroup': bg}),
+                success: data => {
+                    if (data) {
+                        x = data;
+                        updateTable();
+                    } else
+                        $('#here').empty();
+                },
+                contentType: "application/json",
+                dataType: 'json'
+            })
+        });
+
+        $('#location').click(() => {
+            let filterCity = $('#city').val();
+            if (filterCity === "") {
+                alert('Enter city');
+                return null;
+            }
+            x = x.filter((value, index, arr) => {
+                return value['city'] == filterCity;
+            });
+            updateTable();
         })
+
     })
 </script>
 </body>

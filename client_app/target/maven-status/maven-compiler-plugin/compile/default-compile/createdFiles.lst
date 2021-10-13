@@ -2,8 +2,8 @@ com\lumen\client_app\model\Donor.class
 com\lumen\client_app\controller\DonorController.class
 com\lumen\client_app\model\DonorCredentials.class
 com\lumen\client_app\model\CampCredentials.class
+com\lumen\client_app\model\BloodGroup.class
 com\lumen\client_app\controller\PatientController.class
-com\lumen\client_app\controller\PatientController$Eligible.class
 com\lumen\client_app\controller\CampController.class
 com\lumen\client_app\model\Camp.class
 com\lumen\client_app\ClientAppApplication.class

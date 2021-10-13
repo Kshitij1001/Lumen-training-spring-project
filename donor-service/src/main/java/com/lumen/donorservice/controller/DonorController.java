@@ -1,5 +1,6 @@
 package com.lumen.donorservice.controller;
 
+import com.lumen.donorservice.model.BloodGroup;
 import com.lumen.donorservice.model.Donor;
 import com.lumen.donorservice.model.DonorCredentials;
 import com.lumen.donorservice.model.DonorRepository;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,9 +59,36 @@ public class DonorController {
 
     @PostMapping(value = "get_all")
     ResponseEntity<List<Donor>> getAll() {
-        System.out.println("received get all donors request");
+        System.out.println("received {get all donors} request");
         List<Donor> donors = donorRepository.findAll();
         System.out.println("sending all donors...");
+        return new ResponseEntity<>(donors, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "get_bloodGroup", consumes = "application/json")
+    ResponseEntity<List<Donor>> getBloodGroup(@RequestBody BloodGroup bloodGroup) {
+        System.out.println("received {get blood group donors} request: " + bloodGroup.getBloodGroup());
+        List<Donor> donors = donorRepository.findByBloodGroup(bloodGroup.getBloodGroup());
+        System.out.println("sending {blood group donors}...");
+        donors.forEach(System.out::println);
+        return new ResponseEntity<>(donors, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "get_eligible_bloodGroup", consumes = "application/json")
+    ResponseEntity<List<Donor>> getEligibleBloodGroup(@RequestBody BloodGroup bloodGroup) {
+        System.out.println("received {get blood group donors} request: " + bloodGroup);
+        LocalDateTime sixMonthsBack = LocalDateTime.now().minusMonths(6);
+        List<Donor> donors = donorRepository.findByBloodGroupAndLastDonatedBefore(bloodGroup.getBloodGroup(), Date.valueOf(sixMonthsBack.toLocalDate()));
+        List<Donor> neverDonated = donorRepository.findByBloodGroupAndLastDonatedIsNull(bloodGroup.getBloodGroup());
+
+        donors.forEach(System.out::println);
+        System.out.println("Done last donated before");
+
+        neverDonated.forEach(System.out::println);
+        System.out.println("Done last donated null");
+
+        donors.addAll(neverDonated);
+        System.out.println("sending {blood group donors}...");
         return new ResponseEntity<>(donors, HttpStatus.OK);
     }
 

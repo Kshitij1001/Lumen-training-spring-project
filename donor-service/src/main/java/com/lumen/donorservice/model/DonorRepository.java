@@ -10,6 +10,8 @@ public interface DonorRepository extends JpaRepository<Donor, String> {
 
     List<Donor> findByBloodGroup(String bloodGroup);
 
-    List<Donor> findByBloodGroupAndLastDonatedBeforeAndWilling(String bloodGroup, Date sixMonthsBackDate, boolean willing);
+    List<Donor> findByBloodGroupAndLastDonatedIsNull(String bloodGroup);
+
+    List<Donor> findByBloodGroupAndLastDonatedBefore(String bloodGroup, Date sixMonthsBackDate);
 
 }

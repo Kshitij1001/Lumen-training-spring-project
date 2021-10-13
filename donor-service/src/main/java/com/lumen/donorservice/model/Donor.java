@@ -38,11 +38,12 @@ public class Donor {
     @Column(name = "city")
     String city;
 
-    @Column(name = "last_Donated")
+    @Column(name = "last_donated")
     Date lastDonated;
 
     @ManyToOne
     Camp registeredCamp;
 
+    @Column(name = "willing")
     boolean willing;
 }
