@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.sql.Date;
 
 @Data
@@ -18,7 +17,7 @@ import java.sql.Date;
 @ToString
 @Entity
 @Table(name = "kshitij_project_donors")
-public class Donor implements Serializable {
+public class Donor {
 
     @Id
     @Column(name = "mail")
