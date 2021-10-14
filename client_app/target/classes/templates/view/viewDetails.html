@@ -1,0 +1,239 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>View for patients</title>
+    <style type="text/css">
+        body {
+            background-color: #ff5f58;
+        }
+
+        table {
+            background: #012B39;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            margin: 1em;
+        }
+
+        th {
+            border-bottom: 1px solid #364043;
+            color: #E2B842;
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+
+        td {
+            color: #fff;
+            font-weight: 400;
+            padding: 0.65em 1em;
+        }
+
+        .disabled td {
+            color: #4F5F64;
+        }
+
+        tbody tr {
+            transition: background 0.25s ease;
+        }
+
+        tbody tr:hover {
+            background: #014055;
+        }
+        button {
+            padding: 10px 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2.5px;
+            font-weight: 700;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #2EE59D;
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-7px);
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center">Information view</h1>
+<hr>
+
+<label>
+    Blood group
+    <input id="bloodGroup" list="bgList" type="text">
+    <datalist id="bgList">
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+    </datalist>
+</label>
+<label>
+    City
+    <input id="city" list="cities" style="width:35%">
+    <datalist id="cities">
+        <option value="Agartala">Agartala</option>
+        <option value="Aizawl">Aizawl</option>
+        <option value="Amaravati">Amaravati</option>
+        <option value="Amritsar">Amritsar</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Bhubaneswar">Bhubaneswar</option>
+        <option value="Chandigarh">Chandigarh</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Daman">Daman</option>
+        <option value="Dehradun">Dehradun</option>
+        <option value="Delhi NCR">Delhi NCR</option>
+        <option value="Dispur">Dispur</option>
+        <option value="Gandhinagar">Gandhinagar</option>
+        <option value="Gangtok">Gangtok</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Imphal">Imphal</option>
+        <option value="Indore">Indore</option>
+        <option value="Itanagar">Itanagar</option>
+        <option value="Jaipur">Jaipur</option>
+        <option value="Jammu">Jammu</option>
+        <option value="Kavaratti">Kavaratti</option>
+        <option value="Kohima">Kohima</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Leh">Leh</option>
+        <option value="Lucknow">Lucknow</option>
+        <option value="Madurai">Madurai</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Panaji">Panaji</option>
+        <option value="Patna">Patna</option>
+        <option value="Port Blair">Port Blair</option>
+        <option value="Puducherry">Puducherry</option>
+        <option value="Raipur">Raipur</option>
+        <option value="Ranchi">Ranchi</option>
+        <option value="Shillong">Shillong</option>
+        <option value="Shimla">Shimla</option>
+        <option value="Srinagar">Srinagar</option>
+        <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+    </datalist>
+</label>
+<br><br><br>
+<button id="all" style="background-color: aqua">All Blood donors</button>
+<button id="bldGrp" style="background-color: crimson;color: white">All donors with specific blood group</button>
+<button id="eligible" style="background-color: lightgreen">Eligible donors with specific blood group</button>
+<button id="location">Filter by location</button>
+<hr>
+<table id="donorTable">
+    <thead>
+    <tr>
+        <th>
+            First Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Blood group
+        </th>
+        <th>
+            Email ID
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            City
+        </th>
+        <th>
+            Last Donated
+        </th>
+        <th>
+            Willing to donate
+        </th>
+    </tr>
+    </thead>
+    <tbody id="here">
+
+    </tbody>
+</table>
+
+<script crossorigin="anonymous"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+
+        var x;
+
+        const updateTable = () => {
+
+            $('#here').empty();
+            x.forEach((item, index) => {
+                $('#here').append(`<tr><td>${item['firstName']}</td>
+                    <td>${item['lastName']}</td><td>${item['bloodGroup']}</td>
+                    <td>${item['mail']}</td><td>${item['address']}</td>
+                    <td>${item['city']}</td><td>${item['lastDonated']}</td>
+                    <td>${item['willing'] ? 'Yes' : 'No'}</td></tr>`);
+            });
+            $('#donorTable').show();
+        };
+
+        $('#all').click(()=>jPostTableUpdate('/patients/all_donors',{}));
+
+        $('#bldGrp').click(() => {
+            let bg = $(`#bloodGroup`).val();
+            if (bg === "") {
+                alert('Enter blood group');
+                return null;
+            }
+            jPostTableUpdate('/patients/bloodGroup_donors',{'bloodGroup': bg});
+        });
+
+        $('#eligible').click(() => {
+            let bg = $(`#bloodGroup`).val();
+            if (bg === "") {
+                alert('Enter blood group');
+                return null;
+            }
+            jPostTableUpdate('/patients/eligible_bloodGroup_donors',{'bloodGroup': bg});
+        });
+
+        let jPostTableUpdate = (path,data)=>{
+            $.ajax({
+                type: 'POST',
+                url: path,
+                data: JSON.stringify(data),
+                success: ret => {
+                    if (ret) {
+                        x = ret;
+                        updateTable();
+                    } else
+                        $('#donorTable').hide()// $('#here').empty();
+                },
+                contentType: "application/json",
+                dataType: 'json'
+            })
+        };
+
+        $('#location').click(() => {
+            let filterCity = $('#city').val();
+            if (filterCity === "") {
+                alert('Enter city');
+                return null;
+            }
+            x = x.filter((value, index, arr) => {
+                return value['city'] == filterCity;
+            });
+            updateTable();
+        })
+
+    })
+</script>
+</body>
+</html>

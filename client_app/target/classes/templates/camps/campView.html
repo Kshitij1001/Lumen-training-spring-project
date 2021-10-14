@@ -1,0 +1,86 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Camp's page</title>
+    <style>
+        body {
+            background-color: #ff5f58;
+        }
+
+        table {
+            background: #012B39;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            margin: 1em;
+        }
+
+        th {
+            border-bottom: 1px solid #364043;
+            color: #E2B842;
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+
+        td {
+            color: #fff;
+            font-weight: 400;
+            padding: 0.65em 1em;
+        }
+
+        .disabled td {
+            color: #4F5F64;
+        }
+
+        tbody tr {
+            transition: background 0.25s ease;
+        }
+
+        tbody tr:hover {
+            background: #014055;
+        }
+    </style>
+</head>
+<body>
+<div style="display: inline">
+    <h2 style="margin-left: 5%">The Camp details are:</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Detail Name
+            </th>
+            <th>
+                Detail Information
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Camp ID</td>
+            <td th:text="${responseCamp.campId}"></td>
+        </tr>
+        <tr>
+            <td>Scheduled on</td>
+            <td th:text="${responseCamp.scheduledOn}"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td th:text="${responseCamp.city}"></td>
+        </tr>
+        <tr>
+            <td>Camp status</td>
+            <td th:if="${responseCamp.hasArranged}">Already arranged</td>
+            <td th:if="${!responseCamp.hasArranged}">Yet to arrange</td>
+        </tr>
+        <tr th:each="donor : ${responseCamp.registeredDonors}">
+            <td>Registered donor name</td>
+            <td><p th:text="${donor.firstName} "></p>
+                <p th:text="${donor.lastName}"></p></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

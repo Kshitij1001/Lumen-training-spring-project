@@ -1,0 +1,37 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cannot login</title>
+    <style type="text/css">
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div th:switch="${responseDonor.mail}">
+    <div th:case="'wrong password'">
+        <h1>Incorrect password entered</h1>
+    </div>
+    <div th:case="'wrong mail'">
+        <h1>This email ID isn't registered yet</h1>
+    </div>
+</div>
+<div th:switch="${status}">
+    <h1 style="color: green" th:case="'success'">
+        Donor registered successfully
+    </h1>
+    <h1 style="color: darkorange" th:case="'already registered'">
+        Donor with this email ID is already registered
+    </h1>
+    <h1 style="color: red" th:case="'failure'">
+        Donor couldn't be registered :(
+    </h1>
+</div>
+<a href="/donors/">
+    <button style="border-radius: 10px;margin-left:40%;background-color: greenyellow;width: 20%;height: 8%;font-size:large;text-align: center">
+        Go back
+    </button>
+</a>
+</body>
+</html>

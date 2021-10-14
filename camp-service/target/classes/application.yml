@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: camp-service
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: hr
+    password: hr
+    driver-class-name: oracle.jdbc.OracleDriver
+  # Hibernate ddl auto (create, create-drop, validate, update)
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: oracle
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

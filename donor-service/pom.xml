@@ -8,10 +8,9 @@
         <version>2.5.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lumen</groupId>
     <artifactId>donor-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>donor-service</name>
     <description>donor service project with eureka server</description>
     <properties>

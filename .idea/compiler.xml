@@ -8,17 +8,23 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="camp-service" />
+        <module name="all_starter" />
         <module name="online_blood_bank" />
         <module name="client_app" />
         <module name="donor-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="all_starter" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="all_starter" options="" />
       <module name="camp-service" options="-parameters" />
       <module name="client_app" options="-parameters" />
       <module name="donor-service" options="-parameters" />
+      <module name="online_blood_bank" options="" />
     </option>
   </component>
 </project>

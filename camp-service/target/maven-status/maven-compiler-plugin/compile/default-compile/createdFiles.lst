@@ -1,0 +1,7 @@
+com\lumen\campservice\model\CampCredentials.class
+com\lumen\campservice\controller\CampController.class
+com\lumen\campservice\model\Camp.class
+com\lumen\campservice\CampServiceApplication.class
+com\lumen\campservice\model\CampRepository.class
+com\lumen\campservice\model\Donor.class
+com\lumen\campservice\ServletInitializer.class

@@ -1,0 +1,93 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Donor's page</title>
+    <style type="text/css">
+        body {
+            background-color: #ff5f58;
+        }
+
+        table {
+            background: #012B39;
+            border-radius: 0.25em;
+            border-collapse: collapse;
+            margin: 1em;
+        }
+
+        th {
+            border-bottom: 1px solid #364043;
+            color: #E2B842;
+            font-size: 0.85em;
+            font-weight: 600;
+            padding: 0.5em 1em;
+            text-align: left;
+        }
+
+        td {
+            color: #fff;
+            font-weight: 400;
+            padding: 0.65em 1em;
+        }
+
+        .disabled td {
+            color: #4F5F64;
+        }
+
+        tbody tr {
+            transition: background 0.25s ease;
+        }
+
+        tbody tr:hover {
+            background: #014055;
+        }
+    </style>
+</head>
+<body>
+<div style="display: inline">
+    <h2 style="margin-left: 5%">The donor details are:</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Detail Name
+            </th>
+            <th>
+                Detail Information
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>First Name</td>
+            <td th:text="${responseDonor.firstName}"></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td th:text="${responseDonor.lastName}"></td>
+        </tr>
+        <tr>
+            <td>Blood group</td>
+            <td th:text="${responseDonor.bloodGroup}"></td>
+        </tr>
+        <tr>
+            <td>Email ID</td>
+            <td th:text="${responseDonor.mail}"></td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td th:text="${responseDonor.address}"></td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td th:text="${responseDonor.city}"></td>
+        </tr>
+        <tr>
+            <td>Willing to donate</td>
+            <td th:if="${responseDonor.willing}">Yes</td>
+            <td th:if="${!responseDonor.willing}">No</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

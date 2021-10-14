@@ -1,0 +1,26 @@
+server:
+  port: 8761
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+
+spring:
+  application:
+    name: donor-service
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/XEPDB1
+    username: hr
+    password: hr
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  # Hibernate ddl auto (create, create-drop, validate, update)
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    database: oracle
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true

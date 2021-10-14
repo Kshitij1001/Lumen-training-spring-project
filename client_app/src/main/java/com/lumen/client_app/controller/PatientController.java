@@ -29,33 +29,30 @@ public class PatientController {
 
         URI donorServiceURI = discoveryClient.getInstances("donor-service").get(0).getUri();
 
-        String donors = (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/get_all", "ping", String.class);
-
-        return donors;
+        return (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/get_all", "ping", String.class);
     }
 
     @PostMapping(value = "/bloodGroup_donors", consumes = "application/json")
     @ResponseBody
     public String bloodGroupDonors(@RequestBody BloodGroup bloodGroup) {
+
+        bloodGroup.setBloodGroup(bloodGroup.getBloodGroup().toUpperCase());
         System.out.println("got view blood group donors request: " + bloodGroup.getBloodGroup());
 
         URI donorServiceURI = discoveryClient.getInstances("donor-service").get(0).getUri();
 
-        String donors = (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/get_bloodGroup", bloodGroup, String.class);
-
-        return donors;
+        return (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/get_bloodGroup", bloodGroup, String.class);
     }
 
     @PostMapping(value = "/eligible_bloodGroup_donors", consumes = "application/json")
     @ResponseBody
     public String eligibleBloodGroupDonors(@RequestBody BloodGroup bloodGroup) {
+        bloodGroup.setBloodGroup(bloodGroup.getBloodGroup().toUpperCase());
         System.out.println("got view eligible blood group donors request: " + bloodGroup.getBloodGroup());
 
         URI donorServiceURI = discoveryClient.getInstances("donor-service").get(0).getUri();
 
-        String donors = (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/get_eligible_bloodGroup", bloodGroup, String.class);
-
-        return donors;
+        return (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/get_eligible_bloodGroup", bloodGroup, String.class);
     }
 
 }

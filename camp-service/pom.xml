@@ -11,7 +11,7 @@
     <groupId>com.lumen</groupId>
     <artifactId>camp-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>camp-service</name>
     <description>Spring Boot camp service</description>
     <properties>

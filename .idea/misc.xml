@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/all_starter" />
     <file type="web" url="file://$PROJECT_DIR$/camp-service" />
     <file type="web" url="file://$PROJECT_DIR$/client_app" />
     <file type="web" url="file://$PROJECT_DIR$/donor-service" />
+    <file type="web" url="file://$PROJECT_DIR$/src/main/java" />
+    <file type="web" url="file://$PROJECT_DIR$/src/main/resources" />
+    <file type="web" url="file://$PROJECT_DIR$/src/test/java" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -13,6 +17,7 @@
         <option value="$PROJECT_DIR$/client_app/pom.xml" />
         <option value="$PROJECT_DIR$/donor-service/pom.xml" />
         <option value="$PROJECT_DIR$/camp-service/pom.xml" />
+        <option value="$PROJECT_DIR$/all_starter/pom.xml" />
       </list>
     </option>
   </component>

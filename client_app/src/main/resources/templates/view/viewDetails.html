@@ -40,10 +40,30 @@
         tbody tr:hover {
             background: #014055;
         }
+
+        button {
+            padding: 10px 10px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 20px;
+            letter-spacing: 2.5px;
+            font-weight: 700;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #2EE59D;
+            box-shadow: 0 15px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-7px);
+        }
     </style>
 </head>
 <body>
-<h1>What you wanna check out?</h1>
+<h1 style="text-align: center">Information view</h1>
 <hr>
 
 <label>
@@ -103,13 +123,13 @@
         <option value="Thiruvananthapuram">Thiruvananthapuram</option>
     </datalist>
 </label>
-
+<br><br><br>
 <button id="all" style="background-color: aqua">All Blood donors</button>
 <button id="bldGrp" style="background-color: crimson;color: white">All donors with specific blood group</button>
 <button id="eligible" style="background-color: lightgreen">Eligible donors with specific blood group</button>
 <button id="location">Filter by location</button>
 <hr>
-<table>
+<table id="donorTable">
     <thead>
     <tr>
         <th>
@@ -162,17 +182,10 @@
                     <td>${item['city']}</td><td>${item['lastDonated']}</td>
                     <td>${item['willing'] ? 'Yes' : 'No'}</td></tr>`);
             });
+            $('#donorTable').show();
         };
 
-        $('#all').click(() => {
-            $.post('/patients/all_donors', {}, (data, status) => {
-                x = JSON.parse(data);
-                if (x)
-                    updateTable();
-                else
-                    $('#here').empty();
-            })
-        });
+        $('#all').click(() => jPostTableUpdate('/patients/all_donors', {}));
 
         $('#bldGrp').click(() => {
             let bg = $(`#bloodGroup`).val();
@@ -180,20 +193,7 @@
                 alert('Enter blood group');
                 return null;
             }
-            $.ajax({
-                type: 'POST',
-                url: '/patients/bloodGroup_donors',
-                data: JSON.stringify({'bloodGroup': bg}),
-                success: data => {
-                    if (data) {
-                        x = data;
-                        updateTable();
-                    } else
-                        $('#here').empty();
-                },
-                contentType: "application/json",
-                dataType: 'json'
-            })
+            jPostTableUpdate('/patients/bloodGroup_donors', {'bloodGroup': bg});
         });
 
         $('#eligible').click(() => {
@@ -202,21 +202,25 @@
                 alert('Enter blood group');
                 return null;
             }
+            jPostTableUpdate('/patients/eligible_bloodGroup_donors', {'bloodGroup': bg});
+        });
+
+        let jPostTableUpdate = (path, data) => {
             $.ajax({
                 type: 'POST',
-                url: '/patients/eligible_bloodGroup_donors',
-                data: JSON.stringify({'bloodGroup': bg}),
-                success: data => {
-                    if (data) {
-                        x = data;
+                url: path,
+                data: JSON.stringify(data),
+                success: ret => {
+                    if (ret) {
+                        x = ret;
                         updateTable();
                     } else
-                        $('#here').empty();
+                        $('#donorTable').hide()// $('#here').empty();
                 },
                 contentType: "application/json",
                 dataType: 'json'
             })
-        });
+        };
 
         $('#location').click(() => {
             let filterCity = $('#city').val();

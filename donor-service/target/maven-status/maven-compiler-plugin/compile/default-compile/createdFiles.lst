@@ -1,0 +1,8 @@
+com\lumen\donorservice\model\Donor.class
+com\lumen\donorservice\controller\DonorController.class
+com\lumen\donorservice\model\Camp.class
+com\lumen\donorservice\ServletInitializer.class
+com\lumen\donorservice\DonorServiceApplication.class
+com\lumen\donorservice\model\DonorCredentials.class
+com\lumen\donorservice\model\DonorRepository.class
+com\lumen\donorservice\model\BloodGroup.class

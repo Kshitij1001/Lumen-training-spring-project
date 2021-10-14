@@ -3,13 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>welcome</title>
+    <style type="text/css">
+        button {
+            width: 33%;
+            border-radius: 10px;
+            font-size: large;
+            padding: 20px 20px;
+            display: inline-block;
+            border: none;
+        }
+    </style>
 </head>
 <body style="background-color: #ff8888">
-<h1 style="color: red">Online blood bank portal</h1>
+<h1 style="font-family: Arial,serif;margin-left: 35%">Online blood bank portal</h1>
 <hr>
-<button onclick="donor()">For Blood Donors</button>
-<button onclick="camp()">For donation camps</button>
-<button onclick="patient()">For patients who need blood</button>
+<button class="button" onclick="donor()" style="background-color: orange;"><b>For Blood Donors</b></button>
+<button class="button" onclick="camp()"><b>For donation camps</b></button>
+<button class="button" onclick="patient()" style="background-color: greenyellow"><b>For patients who need blood</b>
+</button>
 <script>
     let donor = () => {
         window.location.href = '/donors';
@@ -21,5 +32,6 @@
         window.location.href = '/patients';
     }
 </script>
+
 </body>
 </html>
