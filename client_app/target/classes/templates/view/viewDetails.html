@@ -40,6 +40,7 @@
         tbody tr:hover {
             background: #014055;
         }
+
         button {
             padding: 10px 10px;
             font-family: 'Roboto', sans-serif;
@@ -184,7 +185,7 @@
             $('#donorTable').show();
         };
 
-        $('#all').click(()=>jPostTableUpdate('/patients/all_donors',{}));
+        $('#all').click(() => jPostTableUpdate('/patients/all_donors', {}));
 
         $('#bldGrp').click(() => {
             let bg = $(`#bloodGroup`).val();
@@ -192,7 +193,7 @@
                 alert('Enter blood group');
                 return null;
             }
-            jPostTableUpdate('/patients/bloodGroup_donors',{'bloodGroup': bg});
+            jPostTableUpdate('/patients/bloodGroup_donors', {'bloodGroup': bg});
         });
 
         $('#eligible').click(() => {
@@ -201,10 +202,10 @@
                 alert('Enter blood group');
                 return null;
             }
-            jPostTableUpdate('/patients/eligible_bloodGroup_donors',{'bloodGroup': bg});
+            jPostTableUpdate('/patients/eligible_bloodGroup_donors', {'bloodGroup': bg});
         });
 
-        let jPostTableUpdate = (path,data)=>{
+        let jPostTableUpdate = (path, data) => {
             $.ajax({
                 type: 'POST',
                 url: path,

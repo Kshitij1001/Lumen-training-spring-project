@@ -277,7 +277,7 @@
         }
         let now = new Date();
         let dos = new Date($('#DoS').val());
-        if (Math.floor((dos - now) / (1000 * 3600 * 24)) > 0) {
+        if (Math.floor((dos - now) / (1000 * 3600 * 24)) <= 0) {
             alert('Scheduled date should start from tomorrow');
             return false;
         }
