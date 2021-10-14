@@ -36,9 +36,9 @@ public class CampController {
 
         System.out.println(camp);
 
-        URI donorServiceURI = discoveryClient.getInstances("camp-service").get(0).getUri();
+        URI campServiceURI = discoveryClient.getInstances("camp-service").get(0).getUri();
 
-        String response = (new RestTemplate()).postForObject(donorServiceURI + "/camp_service/register", camp, String.class);
+        String response = (new RestTemplate()).postForObject(campServiceURI + "/camp_service/register", camp, String.class);
 
         System.out.println("response: " + response);
 
