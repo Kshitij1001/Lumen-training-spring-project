@@ -48,8 +48,8 @@
             letter-spacing: 2.5px;
             font-weight: 700;
             border: none;
-            border-radius: 45px;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 40px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease 0s;
             cursor: pointer;
             outline: none;
@@ -127,7 +127,7 @@
 <button id="all" style="background-color: aqua">All Blood donors</button>
 <button id="bldGrp" style="background-color: crimson;color: white">All donors with specific blood group</button>
 <button id="eligible" style="background-color: lightgreen">Eligible donors with specific blood group</button>
-<button id="location">Filter by location</button>
+<button id="location">Filter result by location</button>
 <hr>
 <table id="donorTable">
     <thead>
@@ -215,7 +215,7 @@
                         x = ret;
                         updateTable();
                     } else
-                        $('#donorTable').hide()// $('#here').empty();
+                        $('#donorTable').hide()
                 },
                 contentType: "application/json",
                 dataType: 'json'
@@ -231,7 +231,10 @@
             x = x.filter((value, index, arr) => {
                 return value['city'] == filterCity;
             });
-            updateTable();
+            if(x)
+                updateTable();
+            else
+                $('#donorTable').hide();
         })
 
     })

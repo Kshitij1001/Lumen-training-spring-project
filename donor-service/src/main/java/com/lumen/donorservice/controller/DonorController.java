@@ -77,19 +77,28 @@ public class DonorController {
     @PostMapping(value = "get_eligible_bloodGroup", consumes = "application/json")
     ResponseEntity<List<Donor>> getEligibleBloodGroup(@RequestBody BloodGroup bloodGroup) {
         System.out.println("received {get blood group donors} request: " + bloodGroup);
+
         LocalDateTime sixMonthsBack = LocalDateTime.now().minusMonths(6);
         List<Donor> donors = donorRepository.findByBloodGroupAndLastDonatedBefore(bloodGroup.getBloodGroup(), Date.valueOf(sixMonthsBack.toLocalDate()));
-        List<Donor> neverDonated = donorRepository.findByBloodGroupAndLastDonatedIsNull(bloodGroup.getBloodGroup());
+        List<Donor> neverDonatedB4 = donorRepository.findByBloodGroupAndLastDonatedIsNull(bloodGroup.getBloodGroup());
 
-        donors.forEach(System.out::println);
-        System.out.println("Done last donated before");
-
-        neverDonated.forEach(System.out::println);
-        System.out.println("Done last donated null");
-
-        donors.addAll(neverDonated);
-        System.out.println("sending {blood group donors}...");
+        donors.addAll(neverDonatedB4);
+        System.out.println("sending 'blood group donors'...");
         return new ResponseEntity<>(donors, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "update", consumes = "application/json")
+    String updateDonor(@RequestBody Donor donor) {
+        System.out.println("donor update request received: " + donor);
+        try {
+            donorRepository.save(donor);
+            System.out.println("donor updated in database");
+            return "updated";
+        } catch (Exception e) {
+            System.out.println("Cannot save to database!!!!");
+            e.printStackTrace();
+            return "failure";
+        }
     }
 
 }

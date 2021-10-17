@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-<div style="display: inline">
+<div style="display: inline-block;border: 3px solid blue;border-radius:10px;background-color:#48cbee;float:left;margin-right:7px">
     <h2 style="margin-left: 5%">The donor details are:</h2>
     <table>
         <thead>
@@ -59,27 +59,27 @@
         <tbody>
         <tr>
             <td>First Name</td>
-            <td th:text="${responseDonor.firstName}"></td>
+            <td id="ofn" th:text="${responseDonor.firstName}"></td>
         </tr>
         <tr>
             <td>Last Name</td>
-            <td th:text="${responseDonor.lastName}"></td>
+            <td id="oln" th:text="${responseDonor.lastName}"></td>
         </tr>
         <tr>
             <td>Blood group</td>
-            <td th:text="${responseDonor.bloodGroup}"></td>
+            <td id="bg" th:text="${responseDonor.bloodGroup}"></td>
         </tr>
         <tr>
             <td>Email ID</td>
-            <td th:text="${responseDonor.mail}"></td>
+            <td id="mail" th:text="${responseDonor.mail}"></td>
         </tr>
         <tr>
             <td>Address</td>
-            <td th:text="${responseDonor.address}"></td>
+            <td id="oadd" th:text="${responseDonor.address}"></td>
         </tr>
         <tr>
             <td>City</td>
-            <td th:text="${responseDonor.city}"></td>
+            <td id="ocity" th:text="${responseDonor.city}"></td>
         </tr>
         <tr>
             <td>Willing to donate</td>
@@ -89,5 +89,152 @@
         </tbody>
     </table>
 </div>
+<div style="display: inline-block;border: 3px solid #009200;border-radius:10px;background-color:#4eee89">
+        <h2 style="margin-left: 5%">Edit details</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    Detail Name
+                </th>
+                <th>
+                    Detail Information
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>First Name</td>
+                    <td>
+                        <input type="text" id="fn" required="required" th:value="${responseDonor.firstName}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>
+                        <input type="text" id="ln" required="required" th:value="${responseDonor.lastName}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>
+                        <input type="text" id="add" required="required" th:value="${responseDonor.address}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>City</td>
+                    <td>
+                        <input type="text" list="cities" id="city" required="required" th:value="${responseDonor.city}">
+                        <datalist id="cities">
+                            <option value="Agartala">Agartala</option>
+                            <option value="Aizawl">Aizawl</option>
+                            <option value="Amaravati">Amaravati</option>
+                            <option value="Amritsar">Amritsar</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="Bhubaneswar">Bhubaneswar</option>
+                            <option value="Chandigarh">Chandigarh</option>
+                            <option value="Chennai">Chennai</option>
+                            <option value="Daman">Daman</option>
+                            <option value="Dehradun">Dehradun</option>
+                            <option value="Delhi NCR">Delhi NCR</option>
+                            <option value="Dispur">Dispur</option>
+                            <option value="Gandhinagar">Gandhinagar</option>
+                            <option value="Gangtok">Gangtok</option>
+                            <option value="Hyderabad">Hyderabad</option>
+                            <option value="Imphal">Imphal</option>
+                            <option value="Indore">Indore</option>
+                            <option value="Itanagar">Itanagar</option>
+                            <option value="Jaipur">Jaipur</option>
+                            <option value="Jammu">Jammu</option>
+                            <option value="Kavaratti">Kavaratti</option>
+                            <option value="Kohima">Kohima</option>
+                            <option value="Kolkata">Kolkata</option>
+                            <option value="Leh">Leh</option>
+                            <option value="Lucknow">Lucknow</option>
+                            <option value="Madurai">Madurai</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Panaji">Panaji</option>
+                            <option value="Patna">Patna</option>
+                            <option value="Port Blair">Port Blair</option>
+                            <option value="Puducherry">Puducherry</option>
+                            <option value="Raipur">Raipur</option>
+                            <option value="Ranchi">Ranchi</option>
+                            <option value="Shillong">Shillong</option>
+                            <option value="Shimla">Shimla</option>
+                            <option value="Srinagar">Srinagar</option>
+                            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                        </datalist>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Willing to donate</td>
+                    <td>
+                        <input type="checkbox" id="will" th:checked="${responseDonor.willing}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>New password</td>
+                    <td>
+                        <input type="password" id="pw">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Old password*</td>
+                    <td>
+                        <input required="required" type="password" id="opw">
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <button onclick="edit()" style="padding:10px 10px 10px 10px;background-color: blue;color: white;border-radius: 10px;margin-left: 40%">Update</button>
+</div>
+<script th:inline="javascript">
+    const jPostTableUpdate = (path, data) => {
+        $.ajax({
+            type: 'POST',
+            url: path,
+            data: JSON.stringify(data),
+            success: ret => {
+                alert('details updated');
+                $('#ofn').text(ret['firstName']);
+                $('#oln').text(ret['lastName']);
+                $('#oadd').text(ret['address']);
+                $('#ocity').text(ret['city']);
+                $("#opw").val("");
+                if(ret['willing'])
+                    $('tbody')[0].rows[6].cells[1].innerHTML = 'Yes';
+                else
+                    $('tbody')[0].rows[6].cells[1].innerHTML = 'No'
+            },
+            contentType: "application/json",
+            dataType: 'json'
+        })
+    };
+    let edit = ()=>{
+        let originalDonor = [[${responseDonor}]];
+        if($('#opw').val()!==originalDonor['password']){
+            alert('incorrect password');
+            return null
+        }
+
+        if($('#pw').val().length<8 && $(`#pw`).val().length>0){
+            alert('Password should be minimum 8 characters long');
+            return null
+        }
+
+        originalDonor['city'] = $('#city').val();
+        originalDonor['willing'] = $('#will').is(':checked');
+        originalDonor['address'] = $('#add').val();
+        originalDonor['firstName'] = $('#fn').val();
+        originalDonor['lastName'] = $('#ln').val();
+        originalDonor['password'] = $("#pw").val();
+
+        jPostTableUpdate('/donors/edit',originalDonor);
+    }
+</script>
+<script crossorigin="anonymous"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

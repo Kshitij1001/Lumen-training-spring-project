@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -49,9 +46,8 @@ public class DonorController {
     }
 
     @PostMapping(value = "/login")
-    public String login(@ModelAttribute DonorCredentials donorCred, Model model) {     //TODO
-        System.out.println("donor wanna login");
-        System.out.println(donorCred);
+    public String login(@ModelAttribute DonorCredentials donorCred, Model model) {
+        System.out.println("donor wanna login: " + donorCred);
 
         URI donorServiceURI = discoveryClient.getInstances("donor-service").get(0).getUri();
 
@@ -64,6 +60,20 @@ public class DonorController {
         if (donorResponse.getMail().startsWith("wrong "))
             return "donors/donorError";
         return "donors/donorView";
+    }
+
+    @PostMapping(value = "/edit", consumes = "application/json")
+    @ResponseBody
+    public Donor edit(@RequestBody Donor donor, Model model) {
+        System.out.println("donor wanna edit: " + donor);
+        URI donorServiceURI = discoveryClient.getInstances("donor-service").get(0).getUri();
+
+        String updateResponse = (new RestTemplate()).postForObject(donorServiceURI + "/donor_service/update", donor, String.class);
+        System.out.println("response: " + updateResponse);
+
+        model.addAttribute("responseDonor", donor);
+
+        return donor;
     }
 
 }
